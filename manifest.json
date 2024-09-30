@@ -1,10 +1,12 @@
 {
-  "domain": "ote_rate",
+  "domain": "ote_rate_v2",
   "name": "OTE Rate Parser v2",
   "documentation": "https://github.com/k3dt/ote_rate_v2",
   "dependencies": [],
   "codeowners": [],
-  "requirements": ["requests"],
+  "requirements": [
+    "requests"
+  ],
   "iot_class": "cloud_polling",
   "version": "0.1.1"
 }
