@@ -6,7 +6,7 @@
     "sensor"
   ],
   "homeassistant": "0.99.1",
-  "iot_class": [
-    "Cloud Poll"
-  ]
+  "requirements": [],
+  "codeowners": [],
+  "iot_class": "cloud_polling"
 }
