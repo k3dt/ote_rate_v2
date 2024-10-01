@@ -146,6 +146,11 @@ class CurrentOTEPriceSensor(SensorEntity):
         return "current_ote_price"
 
     @property
+    def unit_of_measurement(self):
+        """Jednotka měření."""
+        return "Kč/MWh"
+
+    @property
     def state(self):
         """Stav senzoru."""
         return self._state
@@ -169,7 +174,7 @@ class CurrentOTEPriceSensor(SensorEntity):
                 local_datetime.hour == current_hour
                 and local_datetime.date() == current_date
             ):
-                self._state = price_entry["price"]
+                self._state = float(price_entry["price"])
                 break
         else:
             self._state = None
@@ -194,6 +199,11 @@ class AverageOTEPriceSensor(SensorEntity):
         return "average_ote_price"
 
     @property
+    def unit_of_measurement(self):
+        """Jednotka měření."""
+        return "Kč/MWh"
+
+    @property
     def state(self):
         """Stav senzoru."""
         return self._state
@@ -201,6 +211,6 @@ class AverageOTEPriceSensor(SensorEntity):
     async def async_update(self):
         """Aktualizace stavu senzoru."""
         if self.ote_data.average_price is not None:
-            self._state = self.ote_data.average_price
+            self._state = float(self.ote_data.average_price)
         else:
             self._state = None
