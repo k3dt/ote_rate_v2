@@ -28,7 +28,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     async_add_entities(sensors, True)
 
     # Aktualizace senzorů na začátku každé hodiny
-    async def update_sensors():
+    async def update_sensors(data):
         await ote_data.async_update()
         for sensor in sensors:
             sensor.async_schedule_update_ha_state(True)
@@ -47,10 +47,11 @@ class OTEData:
 
     async def async_update(self):
         """Načtení nových dat z API."""
-        _LOGGER.warning("Aktualizace OTE dat")
+        _LOGGER.debug("Aktualizace OTE dat?")
         now_utc = dt_util.utcnow().date()
         if self.last_update == now_utc:
             return
+        _LOGGER.debug("Aktualizace OTE dat!")
         try:
             response = await self.hass.async_add_executor_job(requests.get, API_URL)
             data = response.json()
@@ -138,7 +139,7 @@ class CurrentOTEPriceSensor(SensorEntity):
     @property
     def name(self):
         """Název senzoru."""
-        return "Actual OTE Price"
+        return "Current OTE Price"
 
     @property
     def unique_id(self):
