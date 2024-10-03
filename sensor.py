@@ -48,16 +48,20 @@ class OTEData:
     async def async_update(self):
         """Načtení nových dat z API."""
         _LOGGER.debug("Aktualizace OTE dat?")
-        now_utc = dt_util.utcnow().date()
-        if self.last_update == now_utc:
+
+        now = dt_util.now().date
+        _LOGGER.debug("Aktualizace OTE dat v %s", now)
+        # Aktualizace dat každý den po půlnoci
+        if self.last_update == now:
             return
+
         _LOGGER.debug("Aktualizace OTE dat!")
         try:
             response = await self.hass.async_add_executor_job(requests.get, API_URL)
             data = response.json()
             self.prices = data["prices"]
             self.average_price = data["average_ote_price"]  # Získání průměrné ceny
-            self.last_update = now_utc
+            self.last_update = now
             _LOGGER.debug("Načtená OTE data: %s", data)
         except Exception as e:
             _LOGGER.error("Chyba při načítání OTE dat: %s", e)
